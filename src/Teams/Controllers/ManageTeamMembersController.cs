@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Teams.Models;
 using Teams.Services;
@@ -22,11 +25,6 @@ namespace Teams.Controllers
             _accessCheckService = accessCheckService;
         }
 
-        public ManageTeamMembersController(IManageTeamsMembersService manageTeamsMembersService)
-        {
-            _manageTeamsMembersService = manageTeamsMembersService;
-        }
-
         public IActionResult Index()
         {
             return View();
@@ -42,6 +40,32 @@ namespace Teams.Controllers
             else return null;
         }
 
+        [Authorize, NonAction]
+        public async Task<List<TeamMember>> GetAllTeamMembersAsync(int team_id, DisplayOptions options)
+        {
+            if (await _accessCheckService.OwnerOrMemberAsync(team_id))
+            {
+                return await _manageTeamsMembersService.GetAllTeamMembersAsync(team_id, options);
+            }
+            else return null; 
+        }
+
+        [Authorize]
+        public async Task<IActionResult> TeamMembersAsync(int team_id, string team_name, string owner_name)
+        {
+            List <TeamMember> members = await GetAllTeamMembersAsync(team_id, new DisplayOptions { });
+
+            if (members == null) return View("MembersEror");
+            ViewBag.Members = members;
+            ViewBag.TeamName = team_name;
+            ViewBag.TeamOwner = owner_name;
+            return View();
+        }
+
+        public IActionResult MembersEror()
+        {
+            return View("Index");
+        }
         public IActionResult Privacy()
         {
             return View();
