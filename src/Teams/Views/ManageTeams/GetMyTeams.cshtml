@@ -6,19 +6,14 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="https://kit.fontawesome.com/8519ed4a13.js" crossorigin="anonymous"></script>
 
-<p>
-    <div style="margin: 10px 0px 0px 30px" align="right">
-        <h><a style="color: black; text-decoration: none;" class="fas fa-plus" @Html.ActionLink("", "AddTeam", "ManageTeams")</a></h>
-    </div>
-</p>
-
 <table class="table">
     <tr align="center">
-        <td align="left" width="1%"></td>
-        <td align="left" style="font-weight: bold">Team Name</td>
-        <td align="right" width="1%"></td>
-        <td align="right" width="1%"></td>
-        <td align="right" width="1%"></td>
+        <td align="left" style="border-top: hidden" width="1%"></td>
+        <td align="left" style="font-weight: bold;border-top: hidden">Team Name</td>
+        <td align="right" style="border-top: hidden" width="1%"></td>
+        <td align="right" style="border-top: hidden" width="1%"></td>
+        <td align="right" style="border-top: hidden" width="1%"></td>
+        <td align="right" style="border-top: hidden" width="1%"><a style="color: black; text-decoration: none;" class="fas fa-plus" @Html.ActionLink("", "AddTeam", "ManageTeams")</a></td>
     </tr>
     @foreach (var item in Model)
     {
@@ -33,8 +28,8 @@
         <td align="left" width="1%"><i title="Member" class="fas fa-user"></i></td>
     }
     <td align="left"><a>@Html.ActionLink(item.TeamName, "TeamMembers", "ManageTeamMembers", new { team_id = item.Id })</a></td>
-    <td align="right" onclick="location.href = '@Url.Action("AllSprints", "ManageSprints", new { team_id = item.Id })'"><button type='button' class='btn btn-outline-secondary border-0' >Sprints</button></td>
-  
+    <td align="right" onclick="location.href = '@Url.Action("AllSprints", "ManageSprints", new { teamId= item.Id })'"><button type='button' class='btn btn-outline-secondary border-0'>Sprints</button></td>
+    <td align="right" onclick="location.href = '@Url.Action("AllTasksForTeam", "ManageTasks", new { teamId = item.Id })'"><button type='button' class='btn btn-outline-secondary border-0'>Tasks</button></td>
     @if (item.Owner.Email == User.Identity.Name)
     {
         <td align="right" onclick="location.href='@Url.Action("EditTeamName", "ManageTeams", new { team_id = item.Id })'">

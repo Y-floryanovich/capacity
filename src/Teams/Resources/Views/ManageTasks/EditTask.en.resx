@@ -117,57 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Active" xml:space="preserve">
-    <value>Active</value>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
   </data>
-  <data name="AddMember" xml:space="preserve">
-    <value>Add Member</value>
-  </data>
-  <data name="AddSprint" xml:space="preserve">
-    <value>Add Sprint</value>
-  </data>
-  <data name="DaysFieldError" xml:space="preserve">
-    <value>Days field can not be empty or less than 0!</value>
-  </data>
-  <data name="DaysInSprint" xml:space="preserve">
-    <value>Days in Sprint</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>Ooops... Something went wrong!</value>
-  </data>
-  <data name="Member" xml:space="preserve">
-    <value>Member</value>
-  </data>
-  <data name="MemberEmail" xml:space="preserve">
-    <value>Member Email</value>
+  <data name="EditTask" xml:space="preserve">
+    <value>Edit Task</value>
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
-    <comment>add sprint page</comment>
   </data>
-  <data name="NameFieldError" xml:space="preserve">
-    <value>Name field can not be empty!</value>
+  <data name="SelectUser" xml:space="preserve">
+    <value>Select User</value>
   </data>
-  <data name="NameOfSprint" xml:space="preserve">
-    <value>Name of Sprint</value>
-    <comment>all sprints page</comment>
+  <data name="StoryPoints" xml:space="preserve">
+    <value>Story Points</value>
   </data>
-  <data name="NotActive" xml:space="preserve">
-    <value>Not Active</value>
+  <data name="TaskLink" xml:space="preserve">
+    <value>Task Link</value>
   </data>
-  <data name="Owner" xml:space="preserve">
-    <value>Owner</value>
-  </data>
-  <data name="PointsFieldError" xml:space="preserve">
-    <value>Points field can not be empty or less than 0!</value>
-  </data>
-  <data name="RemoveMember" xml:space="preserve">
-    <value>RemoveMember</value>
-  </data>
-  <data name="ReturnToSprint" xml:space="preserve">
-    <value>   Return to sprints</value>
-  </data>
-  <data name="StorePointInHours" xml:space="preserve">
-    <value>Store Point in Hours</value>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
   </data>
 </root>
