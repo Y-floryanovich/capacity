@@ -93,9 +93,9 @@ namespace Teams.Controllers
             var sprint = await _manageSprintsService.GetSprintAsync(sprintId,false);
 
             EditSprintViewModel model = new EditSprintViewModel {TeamId = teamId, TeamName = team.TeamName, SprintId = sprint.Id, SprintName = sprint.Name,
-                SprintDaysInSprint = sprint.DaysInSprint, SprintStorePointInHours = sprint.StoryPointInHours, ErrorMessage=errorMessage};
+                SprintDaysInSprint = sprint.DaysInSprint, SprintStorePointInHours = sprint.StoryPointInHours, ErrorMessage=errorMessage, IsActive = sprint.IsActive };
 
-            if(sprint.IsActive)
+            if (sprint.IsActive)
             {
                 ViewBag.SprintActive = "checked";
                 ViewBag.SprintNotActive = "";
@@ -123,24 +123,38 @@ namespace Teams.Controllers
         [Authorize]
         public async Task<IActionResult> EditSprintAsync(int teamId, int sprintId, string sprintName, int daysInSprint, int storePointsInHours, bool isActive)
         {
+            var Sprints = await _manageSprintsService.GetAllSprintsAsync(teamId, new DisplayOptions());
+            var activeSprints = Sprints.FirstOrDefault(i => i.IsActive == true);
             if (string.IsNullOrEmpty(sprintName))
             {
                 return RedirectToAction("EditSprint", new { teamId = teamId, sprintId = sprintId, errorMessage = _localizer["NameFieldError"] });
             }
+
             if (daysInSprint <= 0)
             {
                 return RedirectToAction("EditSprint", new { teamId = teamId, sprintId = sprintId, errorMessage = _localizer["DaysFieldError"] });
             }
+
             if (storePointsInHours <= 0)
             {
-                return RedirectToAction("EditSprint", new { teamId = teamId, sprintId=sprintId, errorMessage = _localizer["PointsFieldError"] });
+                return RedirectToAction("EditSprint", new { teamId = teamId, sprintId = sprintId, errorMessage = _localizer["PointsFieldError"] });
+            }
+            if(activeSprints != null && isActive == true)
+            {
+                return RedirectToAction("EditSprint", new { teamId = teamId, sprintId = sprintId, errorMessage = _localizer["ActiveFieldError"] });
             }
 
             var sprint = new Sprint { Id = sprintId, TeamId = teamId, Name = sprintName, DaysInSprint = daysInSprint, StoryPointInHours = storePointsInHours, IsActive = isActive };
             var result = await EditSprintAsync(sprint);
 
-            if (result) return RedirectToAction("AllSprints", new { teamId = teamId });
-            else return RedirectToAction("AddError", new { teamId = teamId });
+            if (result)
+            {
+                return RedirectToAction("AllSprints", new { teamId = teamId });
+            }
+            else
+            {
+                return RedirectToAction("AddError", new { teamId = teamId });
+            }
 
         }
 
@@ -149,6 +163,9 @@ namespace Teams.Controllers
         public async Task<IActionResult> AddSprintAsync(int teamId, string sprintName, int daysInSprint, int storePointsInHours, bool isActive)
         {
             var sprint = new Sprint { TeamId = teamId, Name = sprintName, DaysInSprint = daysInSprint, StoryPointInHours = storePointsInHours, IsActive = isActive };
+            
+            var Sprints = await _manageSprintsService.GetAllSprintsAsync(teamId, new DisplayOptions());
+            var activeSprint = Sprints.FirstOrDefault(i => i.IsActive == true);
 
             if (string.IsNullOrEmpty(sprintName))
             {
@@ -161,6 +178,10 @@ namespace Teams.Controllers
             if (storePointsInHours <= 0)
             {
                 return RedirectToAction("AddSprint", new { teamId = teamId, errorMessage = _localizer["PointsFieldError"] });
+            }
+            if (activeSprint != null && isActive == true)
+            {
+                return RedirectToAction("AddSprint", new { teamId = teamId, errorMessage = _localizer["ActiveFieldError"] });
             }
 
             var result = await AddSprintAsync(sprint);
@@ -213,7 +234,7 @@ namespace Teams.Controllers
             var teamId = sprint.TeamId;
             var result = await _manageSprintsService.RemoveAsync(sprintId);
             if (result)
-                return RedirectToAction("AllSprints",new { team_id = teamId});
+                return RedirectToAction("AllSprints",new { teamId = teamId});
             return RedirectToAction("ErrorRemove");
         }
 
