@@ -12,6 +12,7 @@ using Teams.Data.Models;
 using Teams.Security;
 using Teams.Web.ViewModels;
 using Teams.Web.ViewModels.Team;
+using Microsoft.Extensions.Localization;
 
 namespace Teams.Web.Controllers
 {
@@ -19,11 +20,13 @@ namespace Teams.Web.Controllers
     {
         private readonly IManageTeamsService _manageTeamsService;
         private readonly IAccessCheckService _accessCheckService;
+        private readonly IStringLocalizer<ManageTeamsController> _localizer;
 
-        public ManageTeamsController(IManageTeamsService manageTeamsService, IAccessCheckService accessCheckService)
+        public ManageTeamsController(IManageTeamsService manageTeamsService, IAccessCheckService accessCheckService, IStringLocalizer<ManageTeamsController> localizer)
         {
             _manageTeamsService = manageTeamsService;
             _accessCheckService = accessCheckService;
+            _localizer = localizer;
         }
 
         public IActionResult Index()
@@ -50,23 +53,17 @@ namespace Teams.Web.Controllers
             else return null;
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> EditTeamNameAsync(int teamId)
-        {
-            var team = await GetTeamAsync(teamId);
-            var teamModelView = new TeamViewModel(){Id = team.Id,TeamName =team.TeamName};
-            return View(teamModelView);
-        }
-
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> EditTeamNameAsync(int teamId, string teamName)
+        public async Task<IActionResult> EditTeamNameAsync(TeamViewModel teamViewModel)
         {
-            ViewBag.resultOfEditing = await _manageTeamsService.EditTeamNameAsync(teamId, teamName);
-            var team = await GetTeamAsync(teamId);
-            var teamModelView = new TeamViewModel() { Id = team.Id, TeamName = team.TeamName };
-            return View(teamModelView);
+            if (ModelState.IsValid)
+            {
+                ViewBag.resultOfEditing = await _manageTeamsService.EditTeamNameAsync(teamViewModel.Id, teamViewModel.TeamName);
+                return RedirectToAction("GetMyTeams");
+            }
+
+            return RedirectToAction("GetMyTeams");
         }
 
         public IActionResult Privacy()
@@ -80,23 +77,24 @@ namespace Teams.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
-        [Authorize]
-        public IActionResult AddTeam()
-        {
-            return View();
-        }
-
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> AddTeam(string teamName)
+        public async Task<IActionResult> AddTeam(TeamViewModel teamViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _manageTeamsService.AddTeamAsync(teamName);
+                await _manageTeamsService.AddTeamAsync(teamViewModel.TeamName);
                 return RedirectToAction("GetMyTeams");
             }
-            return View(teamName);
+
+            return RedirectToAction("GetMyTeams");
+        }
+
+        public IActionResult NameError()
+        {
+            ViewData["Error"] = _localizer["Error"];
+            ViewData["Cause"] = _localizer["NameEmpty"];
+            return View();
         }
 
         [Authorize]

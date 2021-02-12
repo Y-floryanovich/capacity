@@ -219,7 +219,36 @@ namespace Teams.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Teams.Models.Sprint", b =>
+            modelBuilder.Entity("Teams.Data.Models.MemberWorkingDays", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("Id")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("MemberId")
+                        .HasColumnName("MemberId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SprintId")
+                        .HasColumnName("SprintId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingDays")
+                        .HasColumnName("WorkingDays")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.HasIndex("SprintId");
+
+                    b.ToTable("MemberWorkingDays");
+                });
+
+            modelBuilder.Entity("Teams.Data.Models.Sprint", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -231,20 +260,17 @@ namespace Teams.Data.Migrations
                         .HasColumnName("DaysInSprint")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnName("IsActive")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnName("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StorePointInHours")
-                        .HasColumnName("StorePointInHours")
+                    b.Property<int>("Status")
+                        .HasColumnName("Status")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TaskId")
+                    b.Property<int>("StoryPointInHours")
+                        .HasColumnName("StoryPointInHours")
                         .HasColumnType("int");
 
                     b.Property<int>("TeamId")
@@ -253,14 +279,12 @@ namespace Teams.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TaskId");
-
                     b.HasIndex("TeamId");
 
                     b.ToTable("Sprint");
                 });
 
-            modelBuilder.Entity("Teams.Models.Task", b =>
+            modelBuilder.Entity("Teams.Data.Models.Task", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -268,12 +292,16 @@ namespace Teams.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Completed")
+                        .HasColumnName("Completed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnName("Link")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MemberId")
+                    b.Property<int?>("MemberId")
                         .HasColumnName("MemberId")
                         .HasColumnType("int");
 
@@ -282,7 +310,7 @@ namespace Teams.Data.Migrations
                         .HasColumnName("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SprintId")
+                    b.Property<int?>("SprintId")
                         .HasColumnName("SprintId")
                         .HasColumnType("int");
 
@@ -290,7 +318,7 @@ namespace Teams.Data.Migrations
                         .HasColumnName("StoryPoints")
                         .HasColumnType("int");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
                         .HasColumnName("TeamId")
                         .HasColumnType("int");
 
@@ -305,7 +333,7 @@ namespace Teams.Data.Migrations
                     b.ToTable("Task");
                 });
 
-            modelBuilder.Entity("Teams.Models.Team", b =>
+            modelBuilder.Entity("Teams.Data.Models.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -332,7 +360,7 @@ namespace Teams.Data.Migrations
                     b.ToTable("Team");
                 });
 
-            modelBuilder.Entity("Teams.Models.TeamMember", b =>
+            modelBuilder.Entity("Teams.Data.Models.TeamMember", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -344,7 +372,7 @@ namespace Teams.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("TeamId")
+                    b.Property<int?>("TeamId")
                         .HasColumnName("TeamId")
                         .HasColumnType("int");
 
@@ -408,41 +436,46 @@ namespace Teams.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Teams.Models.Sprint", b =>
+            modelBuilder.Entity("Teams.Data.Models.MemberWorkingDays", b =>
                 {
-                    b.HasOne("Teams.Models.Task", null)
-                        .WithMany("Sprints")
-                        .HasForeignKey("TaskId");
-
-                    b.HasOne("Teams.Models.Team", "Team")
-                        .WithMany()
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Teams.Models.Task", b =>
-                {
-                    b.HasOne("Teams.Models.TeamMember", "TeamMember")
+                    b.HasOne("Teams.Data.Models.TeamMember", "TeamMember")
                         .WithMany()
                         .HasForeignKey("MemberId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Teams.Models.Sprint", "Sprint")
-                        .WithMany()
+                    b.HasOne("Teams.Data.Models.Sprint", "Sprint")
+                        .WithMany("MemberWorkingDays")
                         .HasForeignKey("SprintId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.HasOne("Teams.Models.Team", "Team")
+            modelBuilder.Entity("Teams.Data.Models.Sprint", b =>
+                {
+                    b.HasOne("Teams.Data.Models.Team", "Team")
                         .WithMany()
                         .HasForeignKey("TeamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Teams.Models.Team", b =>
+            modelBuilder.Entity("Teams.Data.Models.Task", b =>
+                {
+                    b.HasOne("Teams.Data.Models.TeamMember", "TeamMember")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+
+                    b.HasOne("Teams.Data.Models.Sprint", "Sprint")
+                        .WithMany("Tasks")
+                        .HasForeignKey("SprintId");
+
+                    b.HasOne("Teams.Data.Models.Team", "Team")
+                        .WithMany()
+                        .HasForeignKey("TeamId");
+                });
+
+            modelBuilder.Entity("Teams.Data.Models.Team", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Owner")
                         .WithMany()
@@ -451,7 +484,7 @@ namespace Teams.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Teams.Models.TeamMember", b =>
+            modelBuilder.Entity("Teams.Data.Models.TeamMember", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Member")
                         .WithMany()
@@ -459,11 +492,9 @@ namespace Teams.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Teams.Models.Team", "Team")
+                    b.HasOne("Teams.Data.Models.Team", "Team")
                         .WithMany("TeamMembers")
-                        .HasForeignKey("TeamId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TeamId");
                 });
 #pragma warning restore 612, 618
         }

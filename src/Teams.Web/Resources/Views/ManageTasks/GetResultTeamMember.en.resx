@@ -117,72 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Active" xml:space="preserve">
-    <value>Активный</value>
+  <data name="Complete" xml:space="preserve">
+    <value>Complete</value>
   </data>
-  <data name="ActiveFieldError" xml:space="preserve">
-    <value>В команде может быть только один активный спринт</value>
+  <data name="GoBackSprint" xml:space="preserve">
+    <value>Go back to sprint</value>
   </data>
-  <data name="AddMember" xml:space="preserve">
-    <value>Добавить участника</value>
+  <data name="Link" xml:space="preserve">
+    <value>Link</value>
   </data>
-  <data name="AddSprint" xml:space="preserve">
-    <value>Добавить спринт</value>
+  <data name="NameofTask" xml:space="preserve">
+    <value>Name of Task</value>
   </data>
-  <data name="Cancel" xml:space="preserve">
-    <value>Отмена</value>
+  <data name="QuantityUnСompleted" xml:space="preserve">
+    <value>Quantity uncompleted tasks</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>Закрыть</value>
+  <data name="QuantityСompleted" xml:space="preserve">
+    <value>Quantity completed tasks</value>
   </data>
-  <data name="DaysFieldError" xml:space="preserve">
-    <value>Поле для дней не может быть пустым или содержать значениие меньше нуля</value>
+  <data name="ResultForMember" xml:space="preserve">
+    <value>Tasks's result for member</value>
   </data>
-  <data name="DaysInSprint" xml:space="preserve">
-    <value>Кол-во дней</value>
+  <data name="SelectUser" xml:space="preserve">
+    <value>Select member</value>
   </data>
-  <data name="EditSprint" xml:space="preserve">
-    <value>Изменить Спринт</value>
+  <data name="Show" xml:space="preserve">
+    <value>Show</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>Упс... Похоже что-то пошло не так!</value>
+  <data name="SpForUnСompleted" xml:space="preserve">
+    <value>Sp for Uncompleted Tasks</value>
   </data>
-  <data name="Member" xml:space="preserve">
-    <value>Участник</value>
+  <data name="SpForСompleted" xml:space="preserve">
+    <value>Sp for Completed Tasks</value>
   </data>
-  <data name="MemberEmail" xml:space="preserve">
-    <value>Email участника</value>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Название</value>
-    <comment>add sprint page</comment>
+  <data name="StoryPoint" xml:space="preserve">
+    <value>Story Point</value>
   </data>
-  <data name="NameFieldError" xml:space="preserve">
-    <value>Поле для имени не может быть пустым</value>
+  <data name="StoryPointinHours" xml:space="preserve">
+    <value>Story Point in Hours</value>
   </data>
-  <data name="NameOfSprint" xml:space="preserve">
-    <value>Название спринта</value>
-    <comment>all sprints page</comment>
+  <data name="StoryPointsInDay" xml:space="preserve">
+    <value>Story points in day</value>
   </data>
-  <data name="NotActive" xml:space="preserve">
-    <value>Не активный</value>
+  <data name="TotalQuantity" xml:space="preserve">
+    <value>Total quantity </value>
   </data>
-  <data name="Owner" xml:space="preserve">
-    <value>Владелец</value>
+  <data name="TotalSp" xml:space="preserve">
+    <value>Total Sp</value>
   </data>
-  <data name="PointsFieldError" xml:space="preserve">
-    <value>Поле для СП не может быть пустым или содержать значениие меньше нуля</value>
-  </data>
-  <data name="Remove" xml:space="preserve">
-    <value>Вы уверены, что хотите удалить </value>
-  </data>
-  <data name="RemoveMember" xml:space="preserve">
-    <value>Удалить участника</value>
-  </data>
-  <data name="ReturnToSprint" xml:space="preserve">
-    <value>Вернуться к спринтам</value>
-  </data>
-  <data name="StoryPointInHours" xml:space="preserve">
-    <value>Кол-во часов в СП</value>
+  <data name="UnComplete" xml:space="preserve">
+    <value>UnComplete</value>
   </data>
 </root>
